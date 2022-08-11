@@ -4,6 +4,7 @@ import com.portfolio.argprograma.model.Persona;
 import com.portfolio.argprograma.service.IPersonaService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class PersonaController {
     
     @Autowired
@@ -43,8 +45,9 @@ public class PersonaController {
                                 @RequestParam("img_fondo")String nuevoImg_fondo,
                                 @RequestParam("img_perfil")String nuevoImg_perfil,
                                 @RequestParam("titulo")String nuevoTitulo,
-                                @RequestParam("info_profesional")String nuevoInfo_profesional)
-                                //@RequestParam("localidad_id")String nuevoLocalidad_id)
+                                @RequestParam("info_profesional")String nuevoInfo_profesional,
+                                @RequestParam("nacionalidad") String nuevoNacionalidad,
+                                @RequestParam("localidad_id")Long nuevoLocalidad_id)
                                 {
                                         
         Persona persona=iPersonaService.findPersona(id);
@@ -55,7 +58,8 @@ public class PersonaController {
         persona.setImg_perfil(nuevoImg_perfil);
         persona.setTitulo(nuevoTitulo);
         persona.setInfo_profesional(nuevoInfo_profesional);
-        //persona.setLocalidad_id(id);
+        persona.setNacionalidad(nuevoNacionalidad);
+        persona.setLocalidad_id(id);
         
         iPersonaService.savePersona(persona);
         return persona;

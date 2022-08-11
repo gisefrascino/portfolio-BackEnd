@@ -5,6 +5,7 @@ import com.portfolio.argprograma.service.IProyectoService;
 import java.sql.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class ProyectoController {
    @Autowired
     public IProyectoService iProyectoService;
@@ -39,11 +41,11 @@ public class ProyectoController {
     @PutMapping("/proyectos/editar/{id}")
     public Proyecto editProyecto(@PathVariable Long id,
                                 @RequestParam("nombre") String nuevoNombre,
-                                @RequestParam("fecha_realizacion")Date nuevoFecha_realizacion, 
+                                @RequestParam("fecha_realizacion")String nuevoFecha_realizacion, 
                                 @RequestParam("descripcion")String nuevoDescripcion,
                                 @RequestParam("link")String nuevoLink,
-                                @RequestParam("img_proyecto")String nuevoImg_proyecto)
-                                //@RequestParam("persona_id")String nuevoPersona_id)
+                                @RequestParam("img_proyecto")String nuevoImg_proyecto,
+                                @RequestParam("persona_id")Long nuevoPersona_id)
                                 {
                                         
         Proyecto proyecto=iProyectoService.findProyecto(id);
@@ -53,7 +55,7 @@ public class ProyectoController {
         proyecto.setDescripcion(nuevoDescripcion);
         proyecto.setLink(nuevoLink);
         proyecto.setImg_proyecto(nuevoImg_proyecto);
-        //proyecto.setPersona_id(nuevoPersona_id);
+        proyecto.setPersona_id(nuevoPersona_id);
         
         iProyectoService.saveProyecto(proyecto);
         return proyecto;

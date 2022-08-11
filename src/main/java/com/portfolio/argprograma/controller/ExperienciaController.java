@@ -6,6 +6,7 @@ import com.portfolio.argprograma.service.IExperienciaService;
 import java.sql.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class ExperienciaController {
     
     @Autowired
@@ -43,10 +45,10 @@ public class ExperienciaController {
     public Experiencia editExperiencia(@PathVariable Long id,
                                 @RequestParam("empresa") String nuevoEmpresa,
                                 @RequestParam("puesto")String nuevoPuesto, 
-                                @RequestParam("fecha_inicio")Date nuevoFecha_inicio,
-                                @RequestParam("fecha_fin")Date nuevoFecha_fin,
-                                @RequestParam("tareas")String nuevoTareas)
-                                //@RequestParam("persona_id")String nuevoPersona_id)
+                                @RequestParam("fecha_inicio")String nuevoFecha_inicio,
+                                @RequestParam("fecha_fin")String nuevoFecha_fin,
+                                @RequestParam("tareas")String nuevoTareas,
+                                @RequestParam("persona_id")Long nuevoPersona_id)
                                 {
                                         
         Experiencia experiencia=iExperienciaService.findExperiencia(id);
@@ -56,7 +58,7 @@ public class ExperienciaController {
         experiencia.setFecha_inicio(nuevoFecha_inicio);
         experiencia.setFecha_fin(nuevoFecha_fin);
         experiencia.setTareas(nuevoTareas);
-        //experiencia.setPersona_id(id);
+        experiencia.setPersona_id(id);
         
         iExperienciaService.saveExperiencia(experiencia);
         return experiencia;

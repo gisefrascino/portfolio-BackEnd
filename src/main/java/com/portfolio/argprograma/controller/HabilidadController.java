@@ -4,6 +4,7 @@ import com.portfolio.argprograma.model.Habilidad;
 import com.portfolio.argprograma.service.IHabilidadService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class HabilidadController {
     
     @Autowired
@@ -39,15 +41,15 @@ public class HabilidadController {
     @PutMapping("/habilidades/editar/{id}")
     public Habilidad editHabilidad(@PathVariable Long id,
                                 @RequestParam("nombre") String nuevoNombre,
-                                @RequestParam("porcentaje")Long nuevoPorcentaje)
-                                //@RequestParam("persona_id")String nuevoPersona_id)
+                                @RequestParam("porcentaje")Long nuevoPorcentaje,
+                                @RequestParam("persona_id")Long nuevoPersona_id)
                                 {
                                         
         Habilidad habilidad=iHabilidadService.findHabilidad(id);
         
         habilidad.setNombre(nuevoNombre);
         habilidad.setPorcentaje(nuevoPorcentaje);
-       //habilidad.setPersona_id(nuevoPersona_id);
+       habilidad.setPersona_id(nuevoPersona_id);
         
         iHabilidadService.saveHabilidad(habilidad);
         return habilidad;
