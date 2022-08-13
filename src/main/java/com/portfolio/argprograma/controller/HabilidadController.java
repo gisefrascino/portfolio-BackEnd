@@ -41,8 +41,8 @@ public class HabilidadController {
     @PutMapping("/habilidades/editar/{id}")
     public Habilidad editHabilidad(@PathVariable Long id,
                                 @RequestParam("nombre") String nuevoNombre,
-                                @RequestParam("porcentaje")Long nuevoPorcentaje,
-                                @RequestParam("persona_id")Long nuevoPersona_id)
+                                @RequestParam("porcentaje")int nuevoPorcentaje,
+                                @RequestParam("persona_id")int nuevoPersona_id)
                                 {
                                         
         Habilidad habilidad=iHabilidadService.findHabilidad(id);

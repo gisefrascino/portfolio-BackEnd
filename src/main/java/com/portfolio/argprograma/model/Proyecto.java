@@ -1,6 +1,5 @@
 package com.portfolio.argprograma.model;
 
-import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +19,7 @@ public class Proyecto {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     
     @Column
     @NotNull
@@ -36,7 +35,20 @@ public class Proyecto {
     @Column
     private String img_proyecto;  
     @Column
-    private Long persona_id;
+    private int persona_id;
+
+    public Proyecto() {
+    }
+
+    public Proyecto(String nombre, String fecha_realizacion, String descripcion, String link, String img_proyecto, int persona_id) {
+        this.nombre = nombre;
+        this.fecha_realizacion = fecha_realizacion;
+        this.descripcion = descripcion;
+        this.link = link;
+        this.img_proyecto = img_proyecto;
+        this.persona_id = persona_id;
+    }
+    
     
 }
 

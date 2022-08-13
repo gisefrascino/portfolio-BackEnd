@@ -47,7 +47,7 @@ public class PersonaController {
                                 @RequestParam("titulo")String nuevoTitulo,
                                 @RequestParam("info_profesional")String nuevoInfo_profesional,
                                 @RequestParam("nacionalidad") String nuevoNacionalidad,
-                                @RequestParam("localidad_id")Long nuevoLocalidad_id)
+                                @RequestParam("localidad_id")int nuevoLocalidad_id)
                                 {
                                         
         Persona persona=iPersonaService.findPersona(id);
@@ -59,7 +59,7 @@ public class PersonaController {
         persona.setTitulo(nuevoTitulo);
         persona.setInfo_profesional(nuevoInfo_profesional);
         persona.setNacionalidad(nuevoNacionalidad);
-        persona.setLocalidad_id(id);
+        persona.setLocalidad_id(nuevoLocalidad_id);
         
         iPersonaService.savePersona(persona);
         return persona;

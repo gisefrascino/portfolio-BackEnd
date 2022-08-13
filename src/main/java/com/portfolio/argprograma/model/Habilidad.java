@@ -19,7 +19,7 @@ public class Habilidad {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     
     @Column
     @NotNull
@@ -28,11 +28,18 @@ public class Habilidad {
     
     @Column
     @NotNull
-    private Long porcentaje;
+    private int porcentaje;
     @Column
-    private Long persona_id;
-   
-}
+    private int persona_id;
 
+    public Habilidad() {
+    }
+
+    public Habilidad(String nombre, int porcentaje, int persona_id) {
+        this.nombre = nombre;
+        this.porcentaje = porcentaje;
+        this.persona_id = persona_id;
+    }
+}
     
  

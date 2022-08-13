@@ -1,11 +1,15 @@
 
 package com.portfolio.argprograma.controller;
 
+import com.portfolio.argprograma.Dto.DtoExperiencia;
+import com.portfolio.argprograma.Dto.Mensaje;
 import com.portfolio.argprograma.model.Experiencia;
 import com.portfolio.argprograma.service.IExperienciaService;
-import java.sql.Date;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,57 +17,76 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
+@RequestMapping("/experiencias")
 @CrossOrigin(origins = "http://localhost:4200")
 public class ExperienciaController {
     
     @Autowired
     public IExperienciaService iExperienciaService;
     
-    @GetMapping("/experiencias/traer")
-    public List<Experiencia> getExperiencia(){
-        return iExperienciaService.getExperiencia();
+    @GetMapping("/traer")
+    public ResponseEntity <List<Experiencia>> getExperiencia(){
+        List<Experiencia> experiencia=iExperienciaService.getExperiencia();
+        return new ResponseEntity (experiencia,HttpStatus.OK);
     }
  
-    @PostMapping("/experiencias/crear")
-    public String createExperiencia(@RequestBody Experiencia experiencia){
+    @PostMapping("/crear")
+    public ResponseEntity<?> createExperiencia(@RequestBody DtoExperiencia dtoexp){
+        if (StringUtils.isBlank(dtoexp.getEmpresa()))
+            return new ResponseEntity(new Mensaje ("El nombre de la empresa  es obligatorio"), HttpStatus.BAD_REQUEST);
+        if (iExperienciaService.existsByEmpresa(dtoexp.getEmpresa()))
+            return new ResponseEntity(new Mensaje ("Esa experiencia existe"), HttpStatus.BAD_REQUEST);
+        
+        Experiencia experiencia=new Experiencia(dtoexp.getEmpresa(), dtoexp.getFecha_fin(), dtoexp.getFecha_inicio(),dtoexp.getPuesto(), dtoexp.getTareas());
+        
         iExperienciaService.saveExperiencia(experiencia);
-        return "La experiencia fue creada correctamente";
-    }
-    
-    @DeleteMapping("/experiencias/borrar/{id}")
-    public String deleteExperiencia(@PathVariable Long id){
-        iExperienciaService.deleteExperiencia(id);
-        return "La experiencia fue eliminada correctamente";
-    }
-    
-    @PutMapping("/experiencias/editar/{id}")
-    public Experiencia editExperiencia(@PathVariable Long id,
-                                @RequestParam("empresa") String nuevoEmpresa,
-                                @RequestParam("puesto")String nuevoPuesto, 
-                                @RequestParam("fecha_inicio")String nuevoFecha_inicio,
-                                @RequestParam("fecha_fin")String nuevoFecha_fin,
-                                @RequestParam("tareas")String nuevoTareas,
-                                @RequestParam("persona_id")Long nuevoPersona_id)
-                                {
+        return new ResponseEntity(new Mensaje ("Experiencia agregada"), HttpStatus.OK);
+      
+        }
+        
+       
+    @PutMapping("/editar/{id}")
+    public ResponseEntity<?> editExperiencia(@PathVariable("id") int id, @RequestBody DtoExperiencia dtoexp){
+        if(!iExperienciaService.existsById(id))
+            return new ResponseEntity(new Mensaje ("El id no existe"), HttpStatus.BAD_REQUEST);
+        if(iExperienciaService.existsByEmpresa(dtoexp.getEmpresa())&& iExperienciaService.getByEmpresa(dtoexp.getEmpresa()).get().getId()!=id)
+            return new ResponseEntity(new Mensaje ("Esa experiencia ya existe"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(dtoexp.getEmpresa()))
+            return new ResponseEntity(new Mensaje ("El nombre no puede estar en blanco"), HttpStatus.BAD_REQUEST);
                                         
-        Experiencia experiencia=iExperienciaService.findExperiencia(id);
+        Experiencia experiencia=iExperienciaService.findExperiencia(id).get();
         
-        experiencia.setEmpresa(nuevoEmpresa);
-        experiencia.setPuesto(nuevoPuesto);
-        experiencia.setFecha_inicio(nuevoFecha_inicio);
-        experiencia.setFecha_fin(nuevoFecha_fin);
-        experiencia.setTareas(nuevoTareas);
-        experiencia.setPersona_id(id);
+        experiencia.setEmpresa(dtoexp.getEmpresa());
+        experiencia.setPuesto(dtoexp.getPuesto());
+        experiencia.setFecha_inicio(dtoexp.getFecha_inicio());
+        experiencia.setFecha_fin(dtoexp.getFecha_fin());
+        experiencia.setTareas(dtoexp.getTareas());
         
         iExperienciaService.saveExperiencia(experiencia);
-        return experiencia;
+        return new ResponseEntity(new Mensaje ("Experiencia actualizada"), HttpStatus.OK);
     }
     
+     
+    @DeleteMapping("/borrar/{id}")
+    public ResponseEntity<?> deleteExperiencia(@PathVariable("id") int id){
+        if(!iExperienciaService.existsById(id))
+            return new ResponseEntity(new Mensaje ("El id no existe"), HttpStatus.BAD_REQUEST);
+        
+        iExperienciaService.deleteExperiencia(id);
+        return new ResponseEntity(new Mensaje("La experiencia fue eliminada correctamente"),HttpStatus.OK);
+    }
     
-    
+    @GetMapping("/detalle/{id}")
+    public ResponseEntity<Experiencia> getById(@PathVariable("id") int id){
+        if(!iExperienciaService.existsById(id))
+            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        Experiencia experiencia = iExperienciaService.findExperiencia(id).get();
+        return new ResponseEntity(experiencia, HttpStatus.OK);
+    }
+
 }

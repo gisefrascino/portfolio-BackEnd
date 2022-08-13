@@ -2,7 +2,6 @@ package com.portfolio.argprograma.controller;
 
 import com.portfolio.argprograma.model.Educacion;
 import com.portfolio.argprograma.service.IEducacionService;
-import java.sql.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -43,8 +42,8 @@ public class EducacionController {
                                 @RequestParam("titulo") String nuevoTitulo,
                                 @RequestParam("fecha_inicio")String nuevoFecha_inicio,
                                 @RequestParam("fecha_fin")String nuevoFecha_fin,
-                                @RequestParam("persona_id")Long nuevoPersona_id,
-                                @RequestParam("institucion_id") Long nuevoInstitucion_id)
+                                @RequestParam("persona_id")int nuevoPersona_id,
+                                @RequestParam("institucion_id") int nuevoInstitucion_id)
                                 {
                                         
         Educacion educacion=iEducacionService.findEducacion(id);

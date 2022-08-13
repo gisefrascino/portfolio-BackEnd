@@ -45,7 +45,7 @@ public class ProyectoController {
                                 @RequestParam("descripcion")String nuevoDescripcion,
                                 @RequestParam("link")String nuevoLink,
                                 @RequestParam("img_proyecto")String nuevoImg_proyecto,
-                                @RequestParam("persona_id")Long nuevoPersona_id)
+                                @RequestParam("persona_id")int nuevoPersona_id)
                                 {
                                         
         Proyecto proyecto=iProyectoService.findProyecto(id);

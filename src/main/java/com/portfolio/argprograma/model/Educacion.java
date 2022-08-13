@@ -1,6 +1,5 @@
 package com.portfolio.argprograma.model;
     
-import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +19,7 @@ public class Educacion {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     
     @Column
     @NotNull
@@ -32,8 +31,18 @@ public class Educacion {
     @Column
     private String fecha_fin;
     @Column
-    private Long persona_id;   
+    private int persona_id;   
     @Column
-    private Long institucion_id;
- 
+    private int institucion_id;
+
+    public Educacion() {
+    }
+
+    public Educacion(String titulo, String fecha_inicio, String fecha_fin, int persona_id, int institucion_id) {
+        this.titulo = titulo;
+        this.fecha_inicio = fecha_inicio;
+        this.fecha_fin = fecha_fin;
+        this.persona_id = persona_id;
+        this.institucion_id = institucion_id;
+    }
 }

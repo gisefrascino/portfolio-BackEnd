@@ -18,7 +18,7 @@ public class Persona {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     
     @Column
     @NotNull
@@ -41,6 +41,20 @@ public class Persona {
     @Column    
     private String nacionalidad;
     @Column
-    private Long localidad_id;
+    private int localidad_id;
+
+    public Persona() {
+    }
+
+    public Persona(String nombre, String apellido, String img_fondo, String img_perfil, String titulo, String info_profesional, String nacionalidad, int localidad_id) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.img_fondo = img_fondo;
+        this.img_perfil = img_perfil;
+        this.titulo = titulo;
+        this.info_profesional = info_profesional;
+        this.nacionalidad = nacionalidad;
+        this.localidad_id = localidad_id;
+    }
     
 }

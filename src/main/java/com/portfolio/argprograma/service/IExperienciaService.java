@@ -9,8 +9,15 @@ public interface IExperienciaService {
     
     public void saveExperiencia(Experiencia experiencia);
     
-    public void deleteExperiencia(Long id);
+    public void deleteExperiencia(int id);
     
-    public Experiencia findExperiencia(Long id);
+    public Experiencia findExperiencia(int id);
     
+    public boolean existsByEmpresa(String Empresa);
+    
+    public boolean existsById(int id);
+    
+    public boolean existsByPuesto(String Puesto);
+    
+    public Experiencia getByEmpresa(String Empresa);
 }

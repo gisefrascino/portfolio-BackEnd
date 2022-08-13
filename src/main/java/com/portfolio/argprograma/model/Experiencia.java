@@ -1,6 +1,5 @@
 package com.portfolio.argprograma.model;
 
-import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +20,7 @@ import lombok.Setter;
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     
     @Column
     @NotNull
@@ -39,7 +38,17 @@ import lombok.Setter;
     private String fecha_fin;
     @Column
     private String tareas;
-    @Column
-    private Long persona_id;     
-    
+    //@Column
+    //private int persona_id;     
+
+    public Experiencia() {
+    }
+
+    public Experiencia(String empresa, String puesto, String fecha_inicio, String fecha_fin, String tareas) {
+        this.empresa = empresa;
+        this.puesto = puesto;
+        this.fecha_inicio = fecha_inicio;
+        this.fecha_fin = fecha_fin;
+        this.tareas = tareas;
+    }
 }
