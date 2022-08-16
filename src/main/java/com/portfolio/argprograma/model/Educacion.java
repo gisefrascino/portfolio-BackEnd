@@ -27,22 +27,27 @@ public class Educacion {
     private String titulo;
     
     @Column
+    @NotNull
+    @Size(min=1,max=100, message="no cumple con la longitud")
+    private String institucion;
+    
+    @Column
     private String fecha_inicio;
     @Column
     private String fecha_fin;
-    @Column
-    private int persona_id;   
-    @Column
-    private int institucion_id;
-
+    //@Column
+    //private int persona_id;   
+    
     public Educacion() {
     }
 
-    public Educacion(String titulo, String fecha_inicio, String fecha_fin, int persona_id, int institucion_id) {
+    public Educacion(String titulo, String institucion, String fecha_inicio, String fecha_fin) {
         this.titulo = titulo;
+        this.institucion = institucion;
         this.fecha_inicio = fecha_inicio;
         this.fecha_fin = fecha_fin;
-        this.persona_id = persona_id;
-        this.institucion_id = institucion_id;
     }
+
+    
+   
 }

@@ -52,12 +52,13 @@ public class ExperienciaController {
        
     @PutMapping("/editar/{id}")
     public ResponseEntity<?> editExperiencia(@PathVariable("id") int id, @RequestBody DtoExperiencia dtoexp){
-        if(!iExperienciaService.existsById(id))
+        if(!iExperienciaService.existsById(id)){
             return new ResponseEntity(new Mensaje ("El id no existe"), HttpStatus.BAD_REQUEST);
+        }
         if(iExperienciaService.existsByEmpresa(dtoexp.getEmpresa())&& iExperienciaService.getByEmpresa(dtoexp.getEmpresa()).get().getId()!=id)
-            return new ResponseEntity(new Mensaje ("Esa experiencia ya existe"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje ("Esa empresa ya existe"), HttpStatus.BAD_REQUEST);
         if(StringUtils.isBlank(dtoexp.getEmpresa()))
-            return new ResponseEntity(new Mensaje ("El nombre no puede estar en blanco"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje ("El nombre de la empresa no puede estar en blanco"), HttpStatus.BAD_REQUEST);
                                         
         Experiencia experiencia=iExperienciaService.findExperiencia(id).get();
         
@@ -74,9 +75,9 @@ public class ExperienciaController {
      
     @DeleteMapping("/borrar/{id}")
     public ResponseEntity<?> deleteExperiencia(@PathVariable("id") int id){
-        if(!iExperienciaService.existsById(id))
-            return new ResponseEntity(new Mensaje ("El id no existe"), HttpStatus.BAD_REQUEST);
-        
+        if(!iExperienciaService.existsById(id)){
+            return new ResponseEntity(new Mensaje ("El id no existe"), HttpStatus.NOT_FOUND);
+        }
         iExperienciaService.deleteExperiencia(id);
         return new ResponseEntity(new Mensaje("La experiencia fue eliminada correctamente"),HttpStatus.OK);
     }

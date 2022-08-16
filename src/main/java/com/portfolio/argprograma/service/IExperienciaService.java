@@ -13,11 +13,11 @@ public interface IExperienciaService {
     
     public Experiencia findExperiencia(int id);
     
-    public boolean existsByEmpresa(String Empresa);
+    public boolean existsByEmpresa(String empresa);
     
     public boolean existsById(int id);
     
-    public boolean existsByPuesto(String Puesto);
+    public boolean existsByPuesto(String puesto);
     
-    public Experiencia getByEmpresa(String Empresa);
+    public Experiencia getByEmpresa(String empresa);
 }

@@ -36,8 +36,8 @@ public class ExperienciaService implements IExperienciaService{
     }
   
     @Override
-    public Experiencia getByEmpresa(String Empresa){
-        Experiencia experiencia=iExperienciaRepository.findByEmpresa(Empresa);
+    public Experiencia getByEmpresa(String empresa){
+        Experiencia experiencia=iExperienciaRepository.findByEmpresa(empresa);
         return experiencia;
     }
     
@@ -47,13 +47,13 @@ public class ExperienciaService implements IExperienciaService{
     }
 
     @Override
-    public boolean existsByEmpresa(String Empresa){
-        return iExperienciaRepository.existsByEmpresa(Empresa);
+    public boolean existsByEmpresa(String empresa){
+        return iExperienciaRepository.existsByEmpresa(empresa);
     }
     
     @Override
-    public boolean existsByPuesto(String Puesto){
-        return iExperienciaRepository.existsByPuesto(Puesto);
+    public boolean existsByPuesto(String puesto){
+        return iExperienciaRepository.existsByPuesto(puesto);
     }
     
     }

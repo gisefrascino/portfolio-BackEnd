@@ -1,9 +1,14 @@
 package com.portfolio.argprograma.controller;
 
+import com.portfolio.argprograma.Dto.DtoEducacion;
+import com.portfolio.argprograma.Dto.Mensaje;
 import com.portfolio.argprograma.model.Educacion;
 import com.portfolio.argprograma.service.IEducacionService;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,51 +16,76 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/educaciones")
 @CrossOrigin(origins = "http://localhost:4200")
 public class EducacionController {
  @Autowired
     public IEducacionService iEducacionService;
     
-    @GetMapping("/educaciones/traer")
-    public List<Educacion> getEducacion(){
-        return iEducacionService.getEducacion();
+    @GetMapping("/traer")
+    public ResponseEntity<List<Educacion>> getEducacion(){
+        List<Educacion> list=iEducacionService.getEducacion();
+        return new ResponseEntity(list, HttpStatus.OK) ;
+    }
+    
+    @GetMapping("/detalle/{id}")
+    public ResponseEntity<Educacion> getById(@PathVariable("id") int id){
+        if(!iEducacionService.existsById(id)){
+            return new ResponseEntity(new Mensaje ("No existe el id"), HttpStatus.BAD_REQUEST);
+        }
+        Educacion educacion= iEducacionService.findEducacion(id).get();
+        return new ResponseEntity(educacion, HttpStatus.OK);
+    }
+    
+    @DeleteMapping("/borrar/{id}")
+    public ResponseEntity<?> deleteEducacion(@PathVariable ("id") int id){
+        if(!iEducacionService.existsById(id)){
+            return new ResponseEntity(new Mensaje("No existe el id"), HttpStatus.NOT_FOUND);
+        }
+        iEducacionService.deleteEducacion(id);
+        return new ResponseEntity(new Mensaje("Educacion eliminada"), HttpStatus.OK);
     }
  
-    @PostMapping("/educaciones/crear")
-    public String createEducacion(@RequestBody Educacion educacion){
+    @PostMapping("/crear")
+    public ResponseEntity<?> createEducacion(@RequestBody DtoEducacion dtoedu){
+        if(StringUtils.isBlank(dtoedu.getTitulo())){
+            return new ResponseEntity(new Mensaje("El titulo es obligatorio"), HttpStatus.BAD_REQUEST);
+        }
+        if(iEducacionService.existsByTitulo(dtoedu.getTitulo())){
+            return new ResponseEntity(new Mensaje("Ese titulo ya existe"), HttpStatus.BAD_REQUEST);
+        }
+        Educacion educacion= new Educacion(dtoedu.getTitulo(),dtoedu.getInstitucion(),dtoedu.getFecha_inicio(),dtoedu.getFecha_fin());
         iEducacionService.saveEducacion(educacion);
-        return "La educacion fue creada correctamente";
+        return new ResponseEntity(new Mensaje ("Educacion creada"),HttpStatus.OK);
     }
     
-    @DeleteMapping("/educaciones/borrar/{id}")
-    public String deleteEducacion(@PathVariable Long id){
-        iEducacionService.deleteEducacion(id);
-        return "La educacion fue eliminada correctamente";
-    }
-    
-    @PutMapping("/educaciones/editar/{id}")
-    public Educacion editEducacion(@PathVariable Long id,
-                                @RequestParam("titulo") String nuevoTitulo,
-                                @RequestParam("fecha_inicio")String nuevoFecha_inicio,
-                                @RequestParam("fecha_fin")String nuevoFecha_fin,
-                                @RequestParam("persona_id")int nuevoPersona_id,
-                                @RequestParam("institucion_id") int nuevoInstitucion_id)
-                                {
-                                        
-        Educacion educacion=iEducacionService.findEducacion(id);
+    @PutMapping("/editar/{id}")
+    public ResponseEntity<?> editEducacion(@PathVariable ("id") int id,@RequestBody DtoEducacion dtoedu){
+        if(iEducacionService.existsById(id)){
+            return new ResponseEntity(new Mensaje("No existe el id"),HttpStatus.NOT_FOUND);
+        }    
+        if(iEducacionService.existsByTitulo(dtoedu.getTitulo())&&iEducacionService.findByTitulo(dtoedu.getTitulo()).get().getId()!=id){
+            return new ResponseEntity(new Mensaje("Ese titulo ya existe"),HttpStatus.BAD_REQUEST);
+        }
+        if(StringUtils.isBlank(dtoedu.getTitulo())){
+            return new ResponseEntity(new Mensaje("El titulo debe ser ingresado"),HttpStatus.BAD_REQUEST);
+        }
+        if(StringUtils.isBlank(dtoedu.getInstitucion())){
+            return new ResponseEntity(new Mensaje("La institucion debe ser ingresada"),HttpStatus.BAD_REQUEST);
+        }
+        Educacion educacion=iEducacionService.findEducacion(id).get();
         
-        educacion.setTitulo(nuevoTitulo);
-        educacion.setFecha_inicio(nuevoFecha_inicio);
-        educacion.setFecha_fin(nuevoFecha_fin);
-        educacion.setPersona_id(nuevoPersona_id);
-        educacion.setInstitucion_id(nuevoInstitucion_id);
+        educacion.setTitulo(dtoedu.getTitulo());
+        educacion.setInstitucion(dtoedu.getInstitucion());
+        educacion.setFecha_inicio(dtoedu.getFecha_inicio());
+        educacion.setFecha_fin(dtoedu.getFecha_fin());
         
         iEducacionService.saveEducacion(educacion);
-        return educacion;
+        return new ResponseEntity(new Mensaje("Educacion actualizada"),HttpStatus.OK);
     }
        
 }

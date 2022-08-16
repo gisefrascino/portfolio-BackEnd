@@ -9,7 +9,14 @@ public interface IEducacionService {
     
     public void saveEducacion(Educacion educacion);
     
-    public void deleteEducacion(Long id);
+    public void deleteEducacion(int id);
     
-    public Educacion findEducacion(Long id);
+    public Educacion findEducacion(int id);
+    
+    public Educacion findByTitulo(String titulo);
+    
+    public boolean existsByTitulo(String titulo);
+    
+    public boolean existsById(int id);
 }
+
