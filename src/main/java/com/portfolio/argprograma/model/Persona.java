@@ -38,23 +38,27 @@ public class Persona {
     private String titulo;
     @Column
     private String info_profesional;
-    @Column    
-    private String nacionalidad;
     @Column
-    private int localidad_id;
+    private String provincia;
+    @Column    
+    private String pais;
+   // @Column
+    //private int localidad_id;
 
     public Persona() {
     }
 
-    public Persona(String nombre, String apellido, String img_fondo, String img_perfil, String titulo, String info_profesional, String nacionalidad, int localidad_id) {
+    public Persona(String nombre, String apellido, String img_fondo, String img_perfil, String titulo, String info_profesional, String provincia, String pais) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.img_fondo = img_fondo;
         this.img_perfil = img_perfil;
         this.titulo = titulo;
         this.info_profesional = info_profesional;
-        this.nacionalidad = nacionalidad;
-        this.localidad_id = localidad_id;
+        this.provincia = provincia;
+        this.pais = pais;
     }
+
+   
     
 }

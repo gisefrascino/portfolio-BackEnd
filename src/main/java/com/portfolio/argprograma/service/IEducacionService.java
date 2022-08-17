@@ -5,6 +5,7 @@ import java.util.List;
 
 
 public interface IEducacionService {
+    
     public List<Educacion> getEducacion();
     
     public void saveEducacion(Educacion educacion);
