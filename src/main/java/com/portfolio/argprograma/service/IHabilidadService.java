@@ -9,8 +9,9 @@ public interface IHabilidadService {
     
     public void saveHabilidad(Habilidad habilidad);
     
-    public void deleteHabilidad(Long id);
+    public void deleteHabilidad(int id);
     
-    public Habilidad findHabilidad(Long id);
+    public Habilidad findHabilidad(int id);
     
+    public boolean existsById(int id);
 }

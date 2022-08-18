@@ -1,10 +1,12 @@
 package com.portfolio.argprograma.controller;
 
+import com.portfolio.argprograma.Dto.Mensaje;
 import com.portfolio.argprograma.model.Proyecto;
 import com.portfolio.argprograma.service.IProyectoService;
-import java.sql.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,53 +14,30 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/proyectos")
 @CrossOrigin(origins = "http://localhost:4200")
 public class ProyectoController {
    @Autowired
     public IProyectoService iProyectoService;
     
-    @GetMapping("/proyectos/traer")
-    public List<Proyecto> getProyecto(){
-        return iProyectoService.getProyecto();
+    @GetMapping("/traer")
+    public ResponseEntity<List<Proyecto>> getProyecto(){
+        List<Proyecto> list=iProyectoService.getProyecto();
+        return new ResponseEntity(list, HttpStatus.OK) ;
     }
  
-    @PostMapping("/proyectos/crear")
-    public String createProyecto(@RequestBody Proyecto proyecto){
-        iProyectoService.saveProyecto(proyecto);
-        return "El proyecto fue creado correctamente";
+    @GetMapping("/detalle/{id}")
+    public ResponseEntity<Proyecto> getById(@PathVariable("id") int id){
+        if(!iProyectoService.existsById(id)){
+            return new ResponseEntity(new Mensaje ("No existe el id"), HttpStatus.BAD_REQUEST);
+        }
+        Proyecto proyecto= iProyectoService.findProyecto(id).get();
+        return new ResponseEntity(proyecto, HttpStatus.OK);
+    }        
     }
-    
-    @DeleteMapping("/proyectos/borrar/{id}")
-    public String deleteProyecto(@PathVariable Long id){
-        iProyectoService.deleteProyecto(id);
-        return "El proyecto fue eliminado correctamente";
-    }
-    
-    @PutMapping("/proyectos/editar/{id}")
-    public Proyecto editProyecto(@PathVariable Long id,
-                                @RequestParam("nombre") String nuevoNombre,
-                                @RequestParam("fecha_realizacion")String nuevoFecha_realizacion, 
-                                @RequestParam("descripcion")String nuevoDescripcion,
-                                @RequestParam("link")String nuevoLink,
-                                @RequestParam("img_proyecto")String nuevoImg_proyecto,
-                                @RequestParam("persona_id")int nuevoPersona_id)
-                                {
-                                        
-        Proyecto proyecto=iProyectoService.findProyecto(id);
-        
-        proyecto.setNombre(nuevoNombre);
-        proyecto.setFecha_realizacion(nuevoFecha_realizacion);
-        proyecto.setDescripcion(nuevoDescripcion);
-        proyecto.setLink(nuevoLink);
-        proyecto.setImg_proyecto(nuevoImg_proyecto);
-        proyecto.setPersona_id(nuevoPersona_id);
-        
-        iProyectoService.saveProyecto(proyecto);
-        return proyecto;
-    }
-}
-
+  

@@ -29,17 +29,18 @@ public class Habilidad {
     @Column
     @NotNull
     private int porcentaje;
-    @Column
-    private int persona_id;
+    //@Column
+    //private int persona_id;
 
     public Habilidad() {
     }
 
-    public Habilidad(String nombre, int porcentaje, int persona_id) {
+    public Habilidad(String nombre, int porcentaje) {
         this.nombre = nombre;
         this.porcentaje = porcentaje;
-        this.persona_id = persona_id;
     }
+
+    
 }
     
  
