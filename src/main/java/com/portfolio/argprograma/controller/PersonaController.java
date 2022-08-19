@@ -61,7 +61,7 @@ public class PersonaController {
         if(StringUtils.isBlank(dtoper.getNombre())){
             return new ResponseEntity(new Mensaje("El nombre debe ser ingresado"),HttpStatus.BAD_REQUEST);
         }
-        Persona persona= new Persona(dtoper.getNombre(),dtoper.getApellido(),dtoper.getImg_perfil(),dtoper.getImg_fondo(), dtoper.getTitulo(),dto.getInfo_profesional, dtoper.getProvincia(), dtoper.getPais());
+        Persona persona= new Persona(dtoper.getNombre(),dtoper.getApellido(),dtoper.getImg_perfil(),dtoper.getImg_fondo(), dtoper.getTitulo(),dtoper.getInfo_profesional(), dtoper.getProvincia(), dtoper.getPais());
         iPersonaService.savePersona(persona);
         return new ResponseEntity(new Mensaje ("Persona creada"),HttpStatus.OK);
     }

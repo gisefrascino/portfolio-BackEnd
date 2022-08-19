@@ -1,10 +1,14 @@
 package com.portfolio.argprograma.model;
         
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -12,7 +16,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-@Entity   
+@Entity  
 @Table(name="persona")
 public class Persona {
     @Id
@@ -42,9 +46,24 @@ public class Persona {
     private String provincia;
     @Column    
     private String pais;
-   // @Column
-    //private int localidad_id;
-
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "persona_id")
+    List<Experiencia> experiencia;
+ 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "persona_id")
+    List<Educacion> educacion;
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "persona_id")
+    List<Habilidad> habilidad;
+   
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "persona_id")    
+    List<Proyecto> proyecto;
+   
+   
     public Persona() {
     }
 
@@ -58,7 +77,5 @@ public class Persona {
         this.provincia = provincia;
         this.pais = pais;
     }
-
-   
     
 }

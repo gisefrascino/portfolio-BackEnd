@@ -3,6 +3,7 @@ package com.portfolio.argprograma.service;
 import com.portfolio.argprograma.model.Proyecto;
 import com.portfolio.argprograma.repository.IProyectoRepository;
 import java.util.List;
+import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,8 @@ public class ProyectoService implements IProyectoService{
     }
     
     @Override
-    public Proyecto findProyecto(int id) {
-        Proyecto proyecto=iProyectoRepository.findById(id).orElse(null);
+    public Optional<Proyecto> findProyecto(int id) {
+        Optional<Proyecto> proyecto=iProyectoRepository.findById(id);
         return proyecto;        
     }
     

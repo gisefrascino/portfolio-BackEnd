@@ -3,6 +3,7 @@ package com.portfolio.argprograma.service;
 import com.portfolio.argprograma.model.Educacion;
 import com.portfolio.argprograma.repository.IEducacionRepository;
 import java.util.List;
+import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,14 +21,14 @@ public class EducacionService implements IEducacionService {
     }
     
     @Override
-    public Educacion findEducacion(int id) {
-        Educacion educacion=iEducacionRepository.findById(id).orElse(null);
+    public Optional<Educacion> findEducacion(int id) {
+        Optional<Educacion> educacion=iEducacionRepository.findById(id);
         return educacion;        
     }
 
     @Override
-    public Educacion findByTitulo(String titulo){
-        Educacion educacion=iEducacionRepository.findByTitulo(titulo);
+    public Optional<Educacion> findByTitulo(String titulo){
+        Optional<Educacion> educacion=iEducacionRepository.findByTitulo(titulo);
         return educacion;
     }
     

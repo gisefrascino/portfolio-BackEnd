@@ -2,6 +2,7 @@ package com.portfolio.argprograma.service;
 
 import com.portfolio.argprograma.model.Experiencia;
 import java.util.List;
+import java.util.Optional;
 
 public interface IExperienciaService {
     
@@ -11,7 +12,7 @@ public interface IExperienciaService {
     
     public void deleteExperiencia(int id);
     
-    public Experiencia findExperiencia(int id);
+    public Optional<Experiencia> findExperiencia(int id);
     
     public boolean existsByEmpresa(String empresa);
     
@@ -19,5 +20,5 @@ public interface IExperienciaService {
     
     public boolean existsByPuesto(String puesto);
     
-    public Experiencia getByEmpresa(String empresa);
+    public Optional<Experiencia> getByEmpresa(String empresa);
 }

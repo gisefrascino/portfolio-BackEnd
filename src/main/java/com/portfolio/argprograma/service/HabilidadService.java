@@ -3,6 +3,7 @@ package com.portfolio.argprograma.service;
 import com.portfolio.argprograma.model.Habilidad;
 import com.portfolio.argprograma.repository.IHabilidadRepository;
 import java.util.List;
+import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,8 +32,8 @@ public class HabilidadService implements IHabilidadService {
     }
 
     @Override
-    public Habilidad findHabilidad(int id) {
-        Habilidad habilidad=iHabilidadRepository.findById(id).orElse(null);
+    public Optional<Habilidad> findHabilidad(int id) {
+        Optional<Habilidad> habilidad=iHabilidadRepository.findById(id);
         return habilidad;        
     }
     

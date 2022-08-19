@@ -3,6 +3,7 @@ package com.portfolio.argprograma.service;
 import com.portfolio.argprograma.model.Experiencia;
 import com.portfolio.argprograma.repository.IExperienciaRepository;
 import java.util.List;
+import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,14 +31,14 @@ public class ExperienciaService implements IExperienciaService{
     }
 
     @Override
-    public Experiencia findExperiencia(int id) {
-        Experiencia experiencia=iExperienciaRepository.findById(id).orElse(null);
+    public Optional<Experiencia> findExperiencia(int id) {
+        Optional<Experiencia> experiencia=iExperienciaRepository.findById(id);
         return experiencia;        
     }
   
     @Override
-    public Experiencia getByEmpresa(String empresa){
-        Experiencia experiencia=iExperienciaRepository.findByEmpresa(empresa);
+    public Optional<Experiencia> getByEmpresa(String empresa){
+        Optional<Experiencia> experiencia=iExperienciaRepository.findByEmpresa(empresa);
         return experiencia;
     }
     

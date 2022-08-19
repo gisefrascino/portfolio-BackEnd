@@ -3,6 +3,7 @@ package com.portfolio.argprograma.service;
 import com.portfolio.argprograma.model.Persona;
 import com.portfolio.argprograma.repository.IPersonaRepository;
 import java.util.List;
+import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,8 @@ public class PersonaService implements IPersonaService {
     }
 
     @Override
-    public Persona findPersona(int id) {
-        Persona persona=iPersonaRepository.findById(id).orElse(null);
+    public Optional<Persona> findPersona(int id) {
+        Optional<Persona> persona=iPersonaRepository.findById(id);
         return persona;        
     }
     
@@ -33,8 +34,8 @@ public class PersonaService implements IPersonaService {
     }
     
     @Override
-    public Persona findByApellido(String apellido){
-        Persona persona=iPersonaRepository.findByApellido(apellido);
+    public Optional<Persona> findByApellido(String apellido){
+        Optional<Persona> persona=iPersonaRepository.findByApellido(apellido);
         return persona;
     }
     

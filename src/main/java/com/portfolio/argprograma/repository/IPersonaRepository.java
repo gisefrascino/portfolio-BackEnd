@@ -1,6 +1,7 @@
 package com.portfolio.argprograma.repository;
 
 import com.portfolio.argprograma.model.Persona;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +12,7 @@ public interface IPersonaRepository extends JpaRepository<Persona, Integer>{
     
     public boolean existsByNombre(String nombre);
     
-    public Persona findByApellido(String apellido);
+    public Optional<Persona> findByApellido(String apellido);
     
     public boolean existsByApellido(String apellido);
     
