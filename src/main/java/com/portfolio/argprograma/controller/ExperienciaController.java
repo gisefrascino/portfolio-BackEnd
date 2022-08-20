@@ -40,9 +40,9 @@ public class ExperienciaController {
         if (StringUtils.isBlank(dtoexp.getEmpresa()))
             return new ResponseEntity(new Mensaje ("El nombre de la empresa  es obligatorio"), HttpStatus.BAD_REQUEST);
         if (iExperienciaService.existsByEmpresa(dtoexp.getEmpresa()))
-            return new ResponseEntity(new Mensaje ("Esa experiencia existe"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje ("Esa empresa ya existe"), HttpStatus.BAD_REQUEST);
         
-        Experiencia experiencia=new Experiencia(dtoexp.getEmpresa(), dtoexp.getFecha_fin(), dtoexp.getFecha_inicio(),dtoexp.getPuesto(), dtoexp.getTareas());
+        Experiencia experiencia=new Experiencia(dtoexp.getEmpresa(), dtoexp.getPuesto(), dtoexp.getFecha_inicio(),dtoexp.getFecha_fin(), dtoexp.getTareas());
         
         iExperienciaService.saveExperiencia(experiencia);
         return new ResponseEntity(new Mensaje ("Experiencia agregada"), HttpStatus.OK);

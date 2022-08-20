@@ -65,7 +65,7 @@ public class EducacionController {
     
     @PutMapping("/editar/{id}")
     public ResponseEntity<?> editEducacion(@PathVariable ("id") int id,@RequestBody DtoEducacion dtoedu){
-        if(iEducacionService.existsById(id)){
+        if(!iEducacionService.existsById(id)){
             return new ResponseEntity(new Mensaje("No existe el id"),HttpStatus.NOT_FOUND);
         }    
         if(iEducacionService.existsByTitulo(dtoedu.getTitulo())&&iEducacionService.findByTitulo(dtoedu.getTitulo()).get().getId()!=id){
