@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,15 +43,17 @@ public class PersonaController {
         return new ResponseEntity(persona, HttpStatus.OK);
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/borrar/{id}")
     public ResponseEntity<?> deletePersona(@PathVariable ("id") int id){
         if(!iPersonaService.existsById(id)){
             return new ResponseEntity(new Mensaje("No existe el id"), HttpStatus.NOT_FOUND);
         }
         iPersonaService.deletePersona(id);
-        return new ResponseEntity(new Mensaje("Educacion eliminada"), HttpStatus.OK);
+        return new ResponseEntity(new Mensaje("Persona eliminada"), HttpStatus.OK);
     }
         
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/crear")
     public ResponseEntity<?> createPersona(@RequestBody DtoPersona dtoper){
         if(StringUtils.isBlank(dtoper.getApellido())){
@@ -67,6 +70,7 @@ public class PersonaController {
         return new ResponseEntity(new Mensaje ("Persona creada"),HttpStatus.OK);
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/editar/{id}")
     public ResponseEntity<?> editPersona(@PathVariable ("id") int id,@RequestBody DtoPersona dtoper){
         System.out.println(id);
@@ -89,6 +93,7 @@ public class PersonaController {
         return new ResponseEntity(new Mensaje("Persona actualizada"),HttpStatus.OK);
     }
     
+     @PreAuthorize("hasRole('ADMIN')")
      @PutMapping("/borrarinfo_prof/{id}")
      public ResponseEntity<?> borrarInfo_prof(@PathVariable ("id") int id,@RequestBody DtoPersona dtoper){
         if(!iPersonaService.existsById(id)){

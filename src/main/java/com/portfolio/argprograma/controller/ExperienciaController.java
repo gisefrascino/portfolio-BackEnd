@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +36,7 @@ public class ExperienciaController {
         return new ResponseEntity (experiencia,HttpStatus.OK);
     }
  
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/crear")
     public ResponseEntity<?> createExperiencia(@RequestBody DtoExperiencia dtoexp){
         if (StringUtils.isBlank(dtoexp.getEmpresa()))
@@ -49,7 +51,7 @@ public class ExperienciaController {
       
         }
         
-       
+    @PreAuthorize("hasRole('ADMIN')")  
     @PutMapping("/editar/{id}")
     public ResponseEntity<?> editExperiencia(@PathVariable("id") int id, @RequestBody DtoExperiencia dtoexp){
         if(!iExperienciaService.existsById(id)){
@@ -72,7 +74,7 @@ public class ExperienciaController {
         return new ResponseEntity(new Mensaje ("Experiencia actualizada"), HttpStatus.OK);
     }
     
-     
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/borrar/{id}")
     public ResponseEntity<?> deleteExperiencia(@PathVariable("id") int id){
         if(!iExperienciaService.existsById(id)){
