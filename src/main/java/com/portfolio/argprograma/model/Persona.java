@@ -1,5 +1,6 @@
 package com.portfolio.argprograma.model;
         
+import com.portfolio.argprograma.security.entity.Usuario;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -62,6 +64,10 @@ public class Persona {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "persona_id")    
     List<Proyecto> proyecto;
+   
+   //@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+   //@JoinColumn(name = "persona_id")    
+    //Usuario usuario;
    
    
     public Persona() {

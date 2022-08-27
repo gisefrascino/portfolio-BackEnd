@@ -1,7 +1,9 @@
 package com.portfolio.argprograma.security.entity;
 
+import com.portfolio.argprograma.model.Persona;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,6 +36,10 @@ public class Usuario {
     @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(name="usuario_rol", joinColumns=@JoinColumn(name="usuario_id"), inverseJoinColumns=@JoinColumn(name="rol_id"))
     private Set<Rol> roles= new HashSet<>();
+    
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "persona_id")    
+    Persona persona;
 
     public Usuario() {
     }
